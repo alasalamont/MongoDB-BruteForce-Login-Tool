@@ -1,3 +1,4 @@
+mongo-r00t-p4ssw0rd
 admin
 admin@123
 password
