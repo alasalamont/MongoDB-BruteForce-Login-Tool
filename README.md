@@ -8,8 +8,8 @@
 ## 2. Why should use?
 + Parallel Processing with Multithreading
 + Allow to **choose Brute-Force-Type (-T)**
-+   `-T 1` (default): Test all username with each password in sequence. Ex: U1-P1, U2-P1, U1-P2, U2-P2
-+   `-T 2`: Test each useranme with all password. Ex: U1-P1, U1-P2, U2-P1, U2-P2
+    -   `-T 1` (default): Test all username with each password in sequence. Ex: U1-P1, U2-P1, U1-P2, U2-P2
+    -   `-T 2`: Test each useranme with all password. Ex: U1-P1, U1-P2, U2-P1, U2-P2
 + Test for **anonymous-connection** `mongosh "mongodb://220.158.234.86:27017"`
 + Test **username-list** with **empty-password**
 + Test **username with username as the password**
