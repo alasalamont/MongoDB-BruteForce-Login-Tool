@@ -24,13 +24,16 @@ pip install pymongo colorama
 </br>
 
 ## 4. Usage example
-**Example 1: anonymous-connection, single-username, passwords-list, and specific-database**
+**Example 1: anonymous-connection, single-username, passwords-list, and specific-database, specific brute-force-type**
 ```bash
-python3 -H 220.158.234.86 -P 27017 -u admin -W passwords.txt -D mydatabase
+python3 -H 220.158.234.86 -P 27017 -u admin -W passwords.txt -D mydatabase -T 2
 ```
++ Note:
+    -   `-T 1` (default): Test all username with each password in sequence. Ex: U1-P1, U2-P1, U1-P2, U2-P2
+    -   `-T 2`: Test each useranme with all password. Ex: U1-P1, U1-P2, U2-P1, U2-P2
 </br>
 
-**Example 2: anonymous-connection, usernames-list, passwords-list, and default-database**
+**Example 2: anonymous-connection, usernames-list, passwords-list, and default-database, default-brute-force-type**
 ```bash
 python3 test.py -H 220.158.234.86 -P 27017 -U usernames.txt -W passwords.txt
 ```
