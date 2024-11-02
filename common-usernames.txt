@@ -1,6 +1,7 @@
 admin
 root
 mongo-r00t-us3rn4m3
+adminUser
 userAdmin
 myUserAdmin
 readOnlyUser
