@@ -1,0 +1,10 @@
+admin
+root
+mongo-r00t-us3rn4m3
+userAdmin
+myUserAdmin
+readOnlyUser
+appUser
+reportingUser
+mongodb
+dbadmin
