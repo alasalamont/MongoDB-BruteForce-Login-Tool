@@ -26,7 +26,7 @@ pip install pymongo colorama
 ## 4. Usage example
 **Example 1: anonymous-connection, single-username, passwords-list, and specific-database, specific brute-force-type**
 ```bash
-python3 -H 220.158.234.86 -P 27017 -u admin -W passwords.txt -D mydatabase -T 2
+python3 login-bruteforce-mongodb.py -H 220.158.234.86 -P 27017 -u admin -W passwords.txt -D mydatabase -T 2
 ```
 + Note:
     -   `-T 1` (default): Test all username with each password in sequence. Ex: U1-P1, U2-P1, U1-P2, U2-P2
@@ -35,7 +35,7 @@ python3 -H 220.158.234.86 -P 27017 -u admin -W passwords.txt -D mydatabase -T 2
 
 **Example 2: anonymous-connection, usernames-list, passwords-list, and default-database, default-brute-force-type**
 ```bash
-python3 test.py -H 220.158.234.86 -P 27017 -U usernames.txt -W passwords.txt
+python3 login-bruteforce-mongodb.py test.py -H 220.158.234.86 -P 27017 -U usernames.txt -W passwords.txt
 ```
 + Note: The default-database is `admin`
 
