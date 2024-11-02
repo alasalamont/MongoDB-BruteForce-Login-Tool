@@ -58,7 +58,7 @@ def load_list(filename):
     with open(filename, 'r') as f:
         return [line.strip() for line in f]
 
-def main(host, port, single_username, username_file, password_file, db_name):
+def main(host, port, single_username, username_file, password_file, db_name, brute_force_type):
     # Step 1: Attempt anonymous connection
     print(f"{Fore.LIGHTYELLOW_EX}[*] Trying anonymous connection (no username, no password){Style.RESET_ALL}")
     if attempt_mongo_login(host, port):
@@ -110,12 +110,32 @@ def main(host, port, single_username, username_file, password_file, db_name):
             future.result()
     print()  # Add spacing
 
-    # Step 4: Brute-force each username with every password in the list
-    print(f"{Fore.LIGHTYELLOW_EX}[*] Starting brute-force with each username and each password{Style.RESET_ALL}")
-    with ThreadPoolExecutor(max_workers=MAX_THREADS) as executor:
-        futures = [executor.submit(try_login, username, password) for username in usernames for password in passwords]
-        for future in as_completed(futures):
-            future.result()
+    # Step 4: Test a single username with the entire password list (if -u is specified)
+    if single_username:
+        print(f"{Fore.LIGHTYELLOW_EX}[*] Testing single username '{single_username}' with password list{Style.RESET_ALL}")
+        with ThreadPoolExecutor(max_workers=MAX_THREADS) as executor:
+            futures = [executor.submit(try_login, single_username, password) for password in passwords]
+            for future in as_completed(futures):
+                future.result()
+        print()  # Add spacing
+
+    # Step 5: Brute-force attempts based on chosen brute-force type
+    if brute_force_type == 1:
+        print(f"{Fore.LIGHTYELLOW_EX}[*] Brute-forcing: Testing all usernames with each line password{Style.RESET_ALL}")
+        with ThreadPoolExecutor(max_workers=MAX_THREADS) as executor:
+            futures = [executor.submit(try_login, username, password) for username in usernames for password in passwords]
+            for future in as_completed(futures):
+                future.result()
+    elif brute_force_type == 2:
+        print(f"{Fore.LIGHTYELLOW_EX}[*] Brute-forcing: Testing each username with each line password sequentially{Style.RESET_ALL}")
+        with ThreadPoolExecutor(max_workers=MAX_THREADS) as executor:
+            futures = []
+            for password in passwords:
+                for username in usernames:
+                    futures.append(executor.submit(try_login, username, password))
+                for future in as_completed(futures):
+                    future.result()
+                futures.clear()  # Clear futures to start fresh with the next password
 
     # Output the results
     if found_credentials:
@@ -138,6 +158,7 @@ if __name__ == "__main__":
     parser.add_argument("-U", "--username_file", help="File containing list of usernames")
     parser.add_argument("-W", "--password_file", required=True, help="File containing list of passwords")
     parser.add_argument("-D", "--db_name", help="Database name for MongoDB authentication")
+    parser.add_argument("-T", "--type", type=int, choices=[1, 2], default=1, help="Brute-force type (1: All usernames with each password; 2: Each username with each password sequentially)")
 
     args = parser.parse_args()
 
@@ -146,4 +167,4 @@ if __name__ == "__main__":
         print("Error: You must provide either a single username with -u or a username file with -U.")
         exit(1)
 
-    main(args.host, args.port, args.username, args.username_file, args.password_file, args.db_name)
+    main(args.host, args.port, args.username, args.username_file, args.password_file, args.db_name, args.type)
