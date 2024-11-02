@@ -6,12 +6,12 @@
 </br>
 
 ## 2. Why should use?
++ Parallel Processing with Multithreading
 + Test for **anonymous-connection** `mongosh "mongodb://220.158.234.86:27017"`
 + Test **username-list** with **empty-password**
 + Test **username and password are the same**
 + Test **single-username** with **passwords-list**
 + Test **usernames-list** with **passwords-list**
-+ Parallel Processing with Multithreading
 </br>
 
 ## 3. Install dependencies
